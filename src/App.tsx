@@ -1,11 +1,12 @@
-import React from "react";
+import React from 'react'
+import Dashboard from '@views/Dashboard/Dashboard'
 
 function App() {
   return (
     <>
-      <p>app</p>
+      <Dashboard />
     </>
-  );
+  )
 }
 
-export default App;
+export default App

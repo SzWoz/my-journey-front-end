@@ -14,7 +14,7 @@
       "@data/*": ["data/*"],
       "@helpers/*": ["helpers/*"],
       "@types/*": ["types/*"],
-      "@views/*": ["hooks/*"]
+      "@views/*": ["views/*"]
     },
 
     /* Bundler mode */
