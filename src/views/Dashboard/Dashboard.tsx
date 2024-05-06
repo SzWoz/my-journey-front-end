@@ -1,54 +1,61 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Dashboard.module.scss'
 import { Map, AdvancedMarker, Pin, InfoWindow, useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
+import { MapView } from '@/components/MapView'
+import Autocomplete from 'react-google-autocomplete'
+
+type latLngObject = { formattedAddress: string; lat: number; lng: number }[]
 
 function Dashboard() {
-  const [position, setPosition] = useState({ lat: 37.7749, lng: -122.4194 })
-  const map = useMap()
-  const routesLibrary = useMapsLibrary('routes')
-  const [directionService, setDirectionService] = useState<google.maps.DirectionsService>()
-  const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer>()
+  const [selectedLocation, setSelectedLocation] = useState<google.maps.places.PlaceResult | null>(null)
+  const [locations, setLocations] = useState<latLngObject>([])
+  const [travelLength, setTravelLength] = useState<number>(0)
+  console.log(selectedLocation)
 
-  useEffect(() => {
-    if (!map || !routesLibrary) return
+  const handleSelect = () => {
+    // const results = await geocodeByPlaceId(location.value.place_id)
+    const lat = selectedLocation?.geometry?.location?.lat()
+    const lng = selectedLocation?.geometry?.location?.lng()
+    const formattedAddress = selectedLocation?.formatted_address || ''
 
-    setDirectionService(new routesLibrary.DirectionsService())
-    setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }))
-  }, [map, routesLibrary])
+    if (locations.length < 5 && lat && lng) {
+      setLocations(prevLocations => [...prevLocations, { formattedAddress, lat, lng }])
+    } else {
+      alert('You can only add up to 5 locations.')
+    }
+  }
 
-  useEffect(() => {
-    if (!directionService || !directionsRenderer) return
-
-    directionService.route(
-      {
-        origin: { lat: 37.7749, lng: -122.4194 },
-        destination: { lat: 37.7749, lng: -122.5194 },
-        waypoints: [
-          { location: { lat: 37.8049, lng: -122.4294 }, stopover: true },
-          { location: { lat: 37.8249, lng: -122.4394 }, stopover: true },
-          { location: { lat: 37.8449, lng: -122.4494 }, stopover: true }
-        ],
-        travelMode: google.maps.TravelMode.DRIVING
-      },
-      (response, status) => {
-        if (status === 'OK') {
-          directionsRenderer.setDirections(response)
-        } else {
-          console.error('Directions request failed due to ' + status)
-        }
-      }
-    )
-  }, [directionService, directionsRenderer])
-
-  console.log(directionService)
-
+  console.log(locations)
   return (
     <div className={styles.Wrapper}>
       <div className={styles.MapWrapper}>
-        <Map defaultZoom={9} defaultCenter={position}></Map>
+        <MapView locations={locations} setTravelLength={setTravelLength} />
       </div>
 
-      <div className={styles.LocationsWrapper}>locations component</div>
+      <div className={styles.AddLocation}>
+        <Autocomplete
+          onPlaceSelected={place => {
+            setSelectedLocation(place)
+          }}
+          options={{
+            types: ['geocode', 'establishment']
+          }}
+          apiKey={import.meta.env.VITE_APP_GOOGLE_API_KEY}
+          className={styles.Autocomplete}
+        />
+
+        <button onClick={() => handleSelect()}> Add Waypoint</button>
+      </div>
+
+      <div className={styles.LocationsWrapper}>
+        <p>travel length: {travelLength}</p>
+
+        {locations.map((location, index) => (
+          <div key={index} className={styles.Location}>
+            <div>{location.formattedAddress}</div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

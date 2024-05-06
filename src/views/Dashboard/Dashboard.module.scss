@@ -1,9 +1,28 @@
 .Wrapper {
-  background-color: red;
   min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 60vh 150px 1fr;
+  justify-items: center;
+  align-content: center;
 
   .MapWrapper {
-    height: 60vh;
+    width: 100%;
     background-color: blue;
+  }
+
+  .AddLocation {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 50%;
+
+    .Autocomplete {
+      background-color: transparent;
+      flex-grow: 1;
+      border: none;
+      outline: none;
+      border-bottom: 1px solid black;
+    }
   }
 }
