@@ -1,3 +1,5 @@
+@import '../../styles/main.scss';
+
 .Wrapper {
   min-height: 100vh;
   display: grid;
@@ -5,10 +7,11 @@
   grid-template-rows: 60vh 150px 1fr;
   justify-items: center;
   align-content: center;
+  background-color: $almostBlack;
+  padding-bottom: 5rem;
 
   .MapWrapper {
     width: 100%;
-    background-color: blue;
   }
 
   .AddLocation {
@@ -22,7 +25,11 @@
       flex-grow: 1;
       border: none;
       outline: none;
-      border-bottom: 1px solid black;
+      box-shadow: 0 0 0 3px $french-rose;
+      border-radius: 35px;
+      padding: 1rem;
+      color: $turquoise;
+      font-size: 16px;
     }
   }
 }

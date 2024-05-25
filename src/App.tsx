@@ -6,7 +6,7 @@ import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from '@vis.gl/react
 function App() {
   return (
     <>
-      <APIProvider libraries={['places']} apiKey={import.meta.env.VITE_APP_GOOGLE_API_KEY}>
+      <APIProvider apiKey={import.meta.env.VITE_APP_GOOGLE_API_KEY}>
         <Router />
       </APIProvider>
     </>

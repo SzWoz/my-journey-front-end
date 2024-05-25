@@ -1,0 +1,41 @@
+@import '../../styles/variables.scss';
+
+.TotalTravel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h2 {
+    color: $turquoise;
+  }
+
+  .Distance {
+    display: grid;
+    grid-template-columns: 1fr 25px 25px;
+
+    p {
+      color: $french-rose;
+      margin-right: 1rem;
+    }
+
+    span {
+      color: $accentRed;
+    }
+    button {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      color: $turquoise;
+      cursor: pointer;
+      transition: 0.2s color ease-in-out;
+
+      &:hover {
+        color: $french-rose;
+      }
+
+      &[aria-selected='true'] {
+        color: $french-rose;
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import { Map, useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
 import React, { useEffect, useState } from 'react'
 import styles from './MapView.module.scss'
+import darkmode from '@/data/mapStyles'
 
 interface MapViewProps {
   locations: { lat: number; lng: number }[]
@@ -48,8 +49,6 @@ function MapView({ locations, setTravelLength }: MapViewProps) {
           }, 0)
 
           setTravelLength(totalDistance)
-
-          console.log('Total distance is ' + totalDistance + ' meters.')
         } else {
           console.error('Directions request failed due to ' + status)
         }
@@ -57,9 +56,16 @@ function MapView({ locations, setTravelLength }: MapViewProps) {
     )
   }, [directionService, directionsRenderer, locations])
 
+  const darkModeStyles = [
+    { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+    { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
+    { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] }
+    // Add more style rules as needed
+  ]
+
   return (
     <div className={styles.Wrapper}>
-      <Map defaultZoom={9} defaultCenter={locations[0] || position} />
+      <Map defaultZoom={9} defaultCenter={locations[0] || position} styles={darkmode} disableDefaultUI />
     </div>
   )
 }

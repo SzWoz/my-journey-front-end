@@ -1,0 +1,36 @@
+@import '../../styles/main.scss';
+.SortableItem {
+  padding: 10px;
+  margin: 5px 0;
+  background: $turquoise;
+  border-radius: 5px;
+  cursor: grab;
+  transition: background, color 0.2s;
+  color: $almostBlack;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+.isDragging {
+  background: $french-rose;
+  border: 1px dashed #ddd;
+  cursor: grabbing;
+  color: white;
+
+  div {
+    svg {
+      path {
+        stroke: white;
+      }
+    }
+  }
+}
+
+.DragZone {
+  padding: 1rem;
+  border: 4px dashed $tekhelet;
+}
